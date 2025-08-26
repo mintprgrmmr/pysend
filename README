@@ -10,7 +10,9 @@ python3 -m venv venv && source venv/bin/activate
 
 - [Python docs — socket HOWTO](https://docs.python.org/3/howto/sockets.html)
 - [GeeksForGeeks — Socket Programming in Python](https://www.geeksforgeeks.org/python/socket-programming-python/)
+- [Python docs — Standard errno system symbols](https://docs.python.org/3/library/errno.html)
 - [Python docs — Errors and Exceptions](https://docs.python.org/3/tutorial/errors.html)
 - [Python docs — Built-in Exceptions](https://docs.python.org/3/library/exceptions.html) 
 - [Python docs — socket reference](https://docs.python.org/3/library/socket.html)
 - [Real Python — Socket Programming in Python](https://realpython.com/python-sockets/)
+- [Metanit — Сокеты. Создание сервера] (https://metanit.com/python/network/1.2.php)
