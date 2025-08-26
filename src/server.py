@@ -10,8 +10,10 @@ print ("Сокет успешно создан")
 try:
     serversocket.bind((HOST, PORT))
     print(f"Сервер запущен на {HOST}:{PORT}")
+
     serversocket.listen(5)
     print("Ожидание подключений...")
+
 except OSError as er:
     if er.errno == errno.EADDRINUSE:
         print(f"Порт {PORT} уже занят. Завершение работы\nСервер завершил работу")
@@ -22,6 +24,7 @@ except Exception as er:
 while True:
     clientsocket, clientaddr = serversocket.accept()
     print(clientaddr)
+
     data = clientsocket.recv (1024)
     if not data:
         print("Клиент разорвал соединение")
@@ -30,4 +33,5 @@ while True:
     print(f"Клиент отправил: {message}")
     message = "-> Ваше сообщение отправлено"
     clientsocket.send (message.encode())
+    
     clientsocket.close()
