@@ -1,4 +1,5 @@
 import socket
+import errno
 
 HOST = "127.0.0.1"
 PORT = 1234
@@ -12,12 +13,21 @@ try:
     serversocket.listen(5)
     print("Ожидание подключений...")
 except OSError as er:
-    print("Системная ошибка при запуске сервера:", er)
+    if er.errno == errno.EADDRINUSE:
+        print(f"Порт {PORT} уже занят. Завершение работы\nСервер завершил работу")
+        exit(1)
 except Exception as er:
     print(f"Неожиданная ошибка при запуске сервера: {er}")
 
-try:
-    conn, addr = serversocket.accept()
-    print(addr)
-except Exception as er:
-    print(f"Ошибка при приёме подключения: {er}")
+while True:
+    clientsocket, clientaddr = serversocket.accept()
+    print(clientaddr)
+    data = clientsocket.recv (1024)
+    if not data:
+        print("Клиент разорвал соединение")
+        break
+    message = data.decode()
+    print(f"Клиент отправил: {message}")
+    message = "-> Ваше сообщение отправлено"
+    clientsocket.send (message.encode())
+    clientsocket.close()
