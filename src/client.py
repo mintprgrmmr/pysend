@@ -38,13 +38,13 @@ except ConnectionRefusedError as er:
         exit(1)
     else:
         print("[ConnectionRefusedError]Ошибка подключения:", er)
+except FileNotFoundError:
+    print(f"[FileNotFoundError] Не найден файл {filename}. Проверь путь/имя.")
 except OSError as er:
     if er.errno == errno.EISCONN:
         print(f"[OSError]Сокет уже подключен: {er}. Клиент завершил работу.")
         exit(1)
     else:
         print(f"[OSError] Ошибка №{er.errno}: {er.strerror}")
-except FileNotFoundError:
-    print(f"[FileNotFoundError] Не найден файл {filename}. Проверь путь/имя.")
 except Exception as er:
     print(f"[ERROR]Неожиданная ошибка при подключении к серверу: {er}")
