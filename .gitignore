@@ -5,6 +5,10 @@ __pycache__/
 # виртуальное окружение 
 venv/
 
-# тестовые файлы, создаваемые скриптом
-sendfile.txt
-data/*
+#  все артефакты sendfile
+/sendfile.txt*
+data/sendfile*
+
+# любые txt-файлы в data/
+data/*.txt
+
