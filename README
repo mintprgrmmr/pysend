@@ -3,6 +3,15 @@
 ```
 python3 -m venv venv && source venv/bin/activate
 ```
+## О проекте
+Простая реализация клиента и сервера на Python для передачи файла по TCP и UDP.  Сервер принимает соединение, сохраняет файл и отправляет подтверждение. Клиент подключается, отправляет файл и ждёт ответ от сервера.
+
+## Возможные улучшения
+В рамках задания реализована только базовая логика с целью сохранения простоты кода.
+Можно было бы добавить:
+- вывод статистики (количество пакетов, размер переданных данных);
+- обработку нескольких клиентов одновременно;
+- проверку размера файла перед отправкой.
 
 ## Источники
 
@@ -13,6 +22,7 @@ python3 -m venv venv && source venv/bin/activate
 - [Python docs — Standard errno system symbols](https://docs.python.org/3/library/errno.html)
 - [Python docs — Errors and Exceptions](https://docs.python.org/3/tutorial/errors.html)
 - [Python docs — Built-in Exceptions](https://docs.python.org/3/library/exceptions.html) 
-- [Python docs — socket reference](https://docs.python.org/3/library/socket.html)
+- [Python docs — Socket reference](https://docs.python.org/3/library/socket.html)
 - [Real Python — Socket Programming in Python](https://realpython.com/python-sockets/)
 - [Metanit — Сокеты. Создание сервера] (https://metanit.com/python/network/1.2.php)
+- [YouTube — File Transfer using TCP Socket in Python | Socket Programming ](https://www.youtube.com/watch?v=MEcL0-3k-2c)
