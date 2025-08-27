@@ -6,5 +6,5 @@ __pycache__/
 venv/
 
 # тестовые файлы, создаваемые скриптом
+sendfile.txt
 data/*
-
