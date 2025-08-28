@@ -1,9 +1,9 @@
 import socket
 import errno
 
-HOST = "127.0.0.1"
-PORT = 1234
-SIZE = 1024
+HOST: str = "127.0.0.1"
+PORT: int = 1234
+SIZE: int = 1024
 
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 print ("[BOOT]Сокет успешно создан.")
@@ -26,14 +26,14 @@ while True:
     clientsocket, clientaddr = serversocket.accept()
     print("[CLIENT]Подключился клиент:", clientaddr)
 
-    filenamebytes = clientsocket.recv(SIZE)
+    filenamebytes: bytes = clientsocket.recv(SIZE)
     print("[RECV]Получены данные о файле.")
     if not filenamebytes: 
         print("[CLIENT]Соединение разорвано.")
         clientsocket.close()
         continue
 
-    filename = filenamebytes.decode().strip()
+    filename: str = filenamebytes.decode().strip()
     print(f"[CLIENT]Имя файла: {filename}.\n[RECV] Приём содержимого файла...")
 
     save_dir = "data"            
@@ -43,7 +43,7 @@ while True:
         fileout = open(filepath, "wb")
         print("[OPEN]Файл открыт для перезаписи в бинарном режиме.")
         while True:
-            chunk = clientsocket.recv(SIZE)
+            chunk: bytes = clientsocket.recv(SIZE)
             if not chunk:
                 break
             fileout.write(chunk)

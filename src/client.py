@@ -1,9 +1,9 @@
 import socket
 import errno
 
-HOST = "127.0.0.1"
-PORT = 1234
-SIZE = 1024
+HOST: str = "127.0.0.1"
+PORT: int = 1234
+SIZE: int = 1024
 
 clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -11,14 +11,14 @@ try:
     clientsocket.connect((HOST, PORT))
     print(f"[CONNECTING]Клиент установил соединение с {HOST}:{PORT}.")
 
-    filename = "sendfile.txt"
+    filename: str = "sendfile.txt"
     print(f"[REQUESTING] Имя файла для отправки: {filename}")
     clientsocket.send((filename + "\n").encode())
 
     file = open("data/sendfile.txt", "rb")
     print("[OPEN]Файл открыт для чтения в бинарном режиме.\n[SENDING] Отправка содержимого файла...")
     while True:
-        chunk = file.read(SIZE)
+        chunk: bytes = file.read(SIZE)
         if not chunk:
             break
         clientsocket.sendall(chunk)
@@ -27,7 +27,7 @@ try:
     clientsocket.shutdown(socket.SHUT_WR)
     print("[SENDING] Отправка завершена.")
 
-    message = clientsocket.recv(SIZE).decode()
+    message: str = clientsocket.recv(SIZE).decode()
     print(f"[SERVER] Ответ:{message}")
 
     clientsocket.close()
