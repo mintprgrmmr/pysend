@@ -5,9 +5,11 @@
 ...
 
 ## Виртуальное окружение 
-```
 python3 -m venv venv && source venv/bin/activate
-```
+
+### Аннотации типов (type hints)
+В проекте используются минимальные подсказки типов для читаемости: `str`, `int`, `bytes`, `socket.socket`.
+
 ## Возможные улучшения
 В рамках задания реализована только базовая логика с целью сохранения простоты кода.
 Можно было бы добавить:
@@ -19,12 +21,27 @@ python3 -m venv venv && source venv/bin/activate
 
 В процессе работы использовалась официальная документация и материалы для изучения:
 
+TCP socket:
 - [Python docs — socket HOWTO](https://docs.python.org/3/howto/sockets.html)
 - [GeeksForGeeks — Socket Programming in Python](https://www.geeksforgeeks.org/python/socket-programming-python/)
-- [Python docs — Standard errno system symbols](https://docs.python.org/3/library/errno.html)
-- [Python docs — Errors and Exceptions](https://docs.python.org/3/tutorial/errors.html)
-- [Python docs — Built-in Exceptions](https://docs.python.org/3/library/exceptions.html) 
 - [Python docs — Socket reference](https://docs.python.org/3/library/socket.html)
 - [Real Python — Socket Programming in Python](https://realpython.com/python-sockets/)
 - [Metanit — Сокеты. Создание сервера] (https://metanit.com/python/network/1.2.php)
 - [YouTube — File Transfer using TCP Socket in Python | Socket Programming ](https://www.youtube.com/watch?v=MEcL0-3k-2c)
+
+Errors:
+- [Python docs — Standard errno system symbols](https://docs.python.org/3/library/errno.html)
+- [Python docs — Errors and Exceptions](https://docs.python.org/3/tutorial/errors.html)
+- [Python docs — Built-in Exceptions](https://docs.python.org/3/library/exceptions.html) 
+
+Type hints:  
+- [Python docs – typing](https://docs.python.org/3/library/typing.html)  
+- [PEP 484 – Type Hints](https://peps.python.org/pep-0484/)  
+- [mypy – Cheat Sheet (Python 3)](https://mypy.readthedocs.io/en/stable/cheat_sheet_py3.html)  
+
+Docstrings:  
+- [PEP 257 – Docstring Conventions](https://peps.python.org/pep-0257/)  
+- [Python docs – Documentation Strings](https://docs.python.org/3/tutorial/controlflow.html#tut-docstrings)  
+
+Style:  
+- [PEP 8 – Style Guide for Python Code](https://peps.python.org/pep-0008/)
