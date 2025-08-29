@@ -1,14 +1,15 @@
 # кэш
 __pycache__/
 *.pyc
+.mypy_cache
 
 # виртуальное окружение 
 venv/
 
-#  все артефакты sendfile
-/sendfile.txt*
-data/sendfile*
+#  артефакты sendfile и source.bin
+test/data/saved/sendfile.txt
+test/data/source/source.bin
 
-# любые txt-файлы в data/
-data/*.txt
-
+#vscode
+.vscode/*
+.vscode/launch.json
