@@ -33,6 +33,7 @@ Errors:
 - [Python docs — Standard errno system symbols](https://docs.python.org/3/library/errno.html)
 - [Python docs — Errors and Exceptions](https://docs.python.org/3/tutorial/errors.html)
 - [Python docs — Built-in Exceptions](https://docs.python.org/3/library/exceptions.html) 
+- [Visual Studio — Python Debugger Extension](https://code.visualstudio.com/docs/python/debugging)
 
 Type hints:  
 - [Python docs – typing](https://docs.python.org/3/library/typing.html)  
