@@ -4,7 +4,7 @@ import errno
 HOST: str = "127.0.0.1"
 PORT: int = 1234
 SIZE: int = 1024
-SAVE_DIR: str = "data"
+SAVE_DIR: str = "test/data/saved"
 
 def run_server() -> None:
     """
@@ -71,3 +71,6 @@ def main():
     Точка входа: запускает сервер.
     """
     run_server()
+
+if __name__ == "__main__":
+    main()

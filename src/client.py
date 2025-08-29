@@ -1,9 +1,13 @@
 import socket
 import errno
+import os
 
 HOST: str = "127.0.0.1"
 PORT: int = 1234
 SIZE: int = 1024
+SOURCE_DIR: str = "test/data/source"
+SOURCE_NAME: str = "source.bin"
+SEND_NAME: str = "sendfile.txt"
 
 def run_client() -> None:
     """
@@ -16,11 +20,10 @@ def run_client() -> None:
         clientsocket.connect((HOST, PORT))
         print(f"[CONNECTING]Клиент установил соединение с {HOST}:{PORT}.")
 
-        filename: str = "sendfile.txt"
-        print(f"[REQUESTING] Имя файла для отправки: {filename}")
-        clientsocket.send((filename + "\n").encode())
+        print(f"[REQUESTING] Имя файла для отправки: {SEND_NAME}")
+        clientsocket.send((SEND_NAME + "\n").encode())
 
-        file = open("data/sendfile.txt", "rb")
+        file = open(SOURCE_DIR + "/" + SOURCE_NAME, "rb")
         print("[OPEN]Файл открыт для чтения в бинарном режиме.\n[SENDING] Отправка содержимого файла...")
         while True:
             chunk: bytes = file.read(SIZE)
@@ -44,7 +47,7 @@ def run_client() -> None:
         else:
             print("[ConnectionRefusedError]Ошибка подключения:", er)
     except FileNotFoundError:
-        print(f"[FileNotFoundError] Не найден файл {filename}. Проверь путь/имя.")
+        print(f"[FileNotFoundError] Не найден файл {SOURCE_NAME}. Проверь путь/имя.")
     except OSError as er:
         if er.errno == errno.EISCONN:
             print(f"[OSError]Сокет уже подключен: {er}. Клиент завершил работу.")
@@ -59,3 +62,6 @@ def main() -> None:
     Точка входа: запускает клиента.
     """
     run_client()
+
+if __name__ == "__main__":
+    main()
