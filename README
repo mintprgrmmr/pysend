@@ -35,3 +35,5 @@ UDP socket:
 - [Python docs — UDP Communication](https://wiki.python.org/moin/UdpCommunication)
 - [Python docs — socket HOWTO](https://docs.python.org/3/howto/sockets.html)
 - [Python docs — Low-level networking interface](https://docs.python.org/2/library/socket.html)
+
+*Полный список справочной информации содержится в ветке main.
