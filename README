@@ -64,5 +64,7 @@ TCP/UDP socket:
 - [Real Python — Socket Programming in Python](https://realpython.com/python-sockets/)
 - [Metanit — Сокеты. Создание сервера] (https://metanit.com/python/network/1.2.php)
 - [YouTube — File Transfer using TCP Socket in Python | Socket Programming ](https://www.youtube.com/watch?v=MEcL0-3k-2c)
+- [Python docs — UDP Communication](https://wiki.python.org/moin/UdpCommunication)
+- [Python docs — Low-level networking interface](https://docs.python.org/2/library/socket.html)
 
 *Ссылки и информация, относящиеся к конкретной реализации, помещены в соответствующие ветки в отдельном экземпляре. В корневом README содержатся полные сведения.
