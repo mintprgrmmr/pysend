@@ -1,42 +1,36 @@
 ## О проекте
-Простая реализация клиента и сервера на Python для передачи файла по TCP и UDP.  Сервер принимает соединение, сохраняет файл и отправляет подтверждение. Клиент подключается, отправляет файл и ждёт ответ от сервера.
+Простая реализация клиента и сервера на Python для передачи файла по UDP.  Сервер принимает соединение, сохраняет файл и отправляет подтверждение. Клиент подключается, отправляет файл и ждёт ответ от сервера.
 
 ## Реализация
-- TCP/UDP клиент и сервер для передачи файлов.
+- UDP клиент и сервер для передачи файлов.
 - Bash-скрипт для генерации тестовых данных и проверки результата.
 - Обработка ошибок (OSError, ConnectionRefusedError, FileNotFoundError), type hints (mypy).
 - Логирование шагов работы с единообразными сообщениями.
 - Файлы клиента и сервера разделены по папкам (`src/` для кода, `test/` для тестовых файлов).
 
 ## Запуск
-Проект содержит 2 реализации сервера-клиента по TCP и UDP протоколам, которые определены на ветки tcp и udp. 
-
-1. Переключиться на нужную ветку (tcp/udp):
+1. Создать и активировать виртуальное окружение (по желанию):
    ```bash
-   git checkout origin ***
-   ```
-2. Следовать аналогичной инструкции на выбранной ветке.
+   python3 -m venv venv
+   source venv/bin/activate
+2. Запустить тестовый скрипт:
+    ```bash
+    ./test.sh
+    ```
+Скрипт:
+- создаст каталоги test/data/source и test/data/saved;
+- сгенерирует бинарный файл source.bin (2 MB случайных байт);
+- запустит сервер и клиента;
+- сравнит исходный и полученный файлы.
+
+Если всё успешно: [TEST] OK: файлы совпадают.
+
+## Возможные улучшения
+...
 
 ## Источники
 
-[ОБЩИЕ ССЫЛКИ] В процессе работы использовалась официальная документация и материалы для изучения:
+[UDP-ССЫЛКИ] В процессе работы использовалась официальная документация и материалы для изучения:
 
 Errors:
 - [Python docs — Standard errno system symbols](https://docs.python.org/3/library/errno.html)
-- [Python docs — Errors and Exceptions](https://docs.python.org/3/tutorial/errors.html)
-- [Python docs — Built-in Exceptions](https://docs.python.org/3/library/exceptions.html) 
-- [Visual Studio — Python Debugger Extension](https://code.visualstudio.com/docs/python/debugging)
-
-Type hints:  
-- [Python docs – typing](https://docs.python.org/3/library/typing.html)  
-- [PEP 484 – Type Hints](https://peps.python.org/pep-0484/)  
-- [mypy – Cheat Sheet (Python 3)](https://mypy.readthedocs.io/en/stable/cheat_sheet_py3.html)  
-
-Docstrings:  
-- [PEP 257 – Docstring Conventions](https://peps.python.org/pep-0257/)  
-- [Python docs – Documentation Strings](https://docs.python.org/3/tutorial/controlflow.html#tut-docstrings)  
-
-Style:  
-- [PEP 8 – Style Guide for Python Code](https://peps.python.org/pep-0008/)
-
-*Ссылки и информация, относящиеся к конкретной реализации, помещены в соответствующие ветки. В корневом README содержатся общие для всего проекта сведения.
