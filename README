@@ -21,16 +21,17 @@
 - создаст каталоги test/data/source и test/data/saved;
 - сгенерирует бинарный файл source.bin (2 MB случайных байт);
 - запустит сервер и клиента;
-- сравнит исходный и полученный файлы.
+- сравнит исходный и полученный файлы через `cmp`.
 
-Если всё успешно: [TEST] OK: файлы совпадают.
+Если всё успешно: [TEST] FAIL: файлы различаются.*
 
-## Возможные улучшения
-...
+*UDP не гарантирует: сохранность всех пакетов (часть может потеряться); порядок доставки (пакеты могут прийти не по очереди), целостность файла целиком. Cкрипт честно показывает ненадёжность UDP для передачи файлов.
 
 ## Источники
 
 [UDP-ССЫЛКИ] В процессе работы использовалась официальная документация и материалы для изучения:
 
-Errors:
-- [Python docs — Standard errno system symbols](https://docs.python.org/3/library/errno.html)
+UDP socket:
+- [Python docs — UDP Communication](https://wiki.python.org/moin/UdpCommunication)
+- [Python docs — socket HOWTO](https://docs.python.org/3/howto/sockets.html)
+- [Python docs — Low-level networking interface](https://docs.python.org/2/library/socket.html)
