@@ -1,6 +1,5 @@
 import socket
 import errno
-import os
 
 HOST: str = "127.0.0.1"
 PORT: int = 1234
