@@ -4,67 +4,68 @@ import errno
 HOST: str = "127.0.0.1"
 PORT: int = 1234
 SIZE: int = 1024
-SAVE_DIR: str = "test/data/saved"
+
+SOURCE_DIR: str = "test/data/source"
+SOURCE_NAME: str = "source.bin"
 
 def run_server() -> None:
     """
-    Простой TCP-сервер: принимает имя файла и содержимое,
-    сохраняет его в SAVE_DIR и отправляет подтверждение клиенту.
+    Простой TCP-сервер: ждет запрос имени файла от клиента, 
+    читает файл локально и передаёт его содержимое клиенту.
     """
     serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    print ("[BOOT]Сокет успешно создан.")
+    print ("[SERVER][BOOT]Сокет успешно создан.")
 
     try:
         serversocket.bind((HOST, PORT))
-        print(f"[STARTING]Cервер запущен на {HOST}:{PORT}.")
+        print(f"[SERVER][STARTING]Cервер запущен на {HOST}:{PORT}.")
 
         serversocket.listen(5)
-        print("[LISTENING]Ожидание подключений...")
+        print("[SERVER][LISTENING]Ожидание подключений...")
 
     except OSError as er:
         if er.errno == errno.EADDRINUSE:
-            print(f"[OSError]Порт {PORT} уже занят. Завершение работы\nСервер завершил работу.")
+            print(f"[SERVER][OSError]Порт {PORT} уже занят. Завершение работы\nСервер завершил работу.")
             exit(1)
     except Exception as er:
-        print(f"[ERROR]Неожиданная ошибка при запуске сервера: {er}")
+        print(f"[SERVER][ERROR]Неожиданная ошибка при запуске сервера: {er}")
+        exit(1)
 
     while True:
         clientsocket, clientaddr = serversocket.accept()
-        print("[CLIENT]Подключился клиент:", clientaddr)
+        print("[SERVER][CLIENT]Подключился клиент:", clientaddr)
 
         filenamebytes: bytes = clientsocket.recv(SIZE)
-        print("[RECV]Получены данные о файле.")
         if not filenamebytes: 
-            print("[CLIENT]Соединение разорвано.")
+            print("[SERVER][CLIENT]Соединение разорвано.")
             clientsocket.close()
             continue
 
-        filename: str = filenamebytes.decode().strip()
-        print(f"[CLIENT]Имя файла: {filename}.\n[RECV] Приём содержимого файла...")
-        
-        filepath = SAVE_DIR + "/" + filename
-        
+        requestedname: str = filenamebytes.decode().strip()
+        print(f"[SERVER][CLIENT]Запрошен файл: {requestedname}. Попытка отправки содержимого файла...")
+        if requestedname != SOURCE_NAME:
+            print("[SERVER][ERROR]Запрошен неизвестный файл. Соединение будет закрыто.")
+            clientsocket.close()
+            print("[SERVER][CLOSE]Соединение закрыто.")
+            continue
+
+        sourcepath = SOURCE_DIR + "/" + SOURCE_NAME
         try:
-            fileout = open(filepath, "wb")
-            print("[OPEN]Файл открыт для перезаписи в бинарном режиме.")
+            file = open(sourcepath, "rb")
             while True:
-                chunk: bytes = clientsocket.recv(SIZE)
+                chunk: bytes = file.read(SIZE)
                 if not chunk:
                     break
-                fileout.write(chunk)
-            fileout.close()
-            print("[FINISHED] Файл успешно сохранён.")
-        
-            clientsocket.send(b"THANKS FOR FILE BRO!!!")
-            print("[ACK] Подтверждение отправлено клиенту.")
-
+                clientsocket.sendall(chunk)
+            file.close()
+            print("[SERVER][FINISHED]Передача данных завершена.")
         except FileNotFoundError:
-            print(f"[ERROR] Папка {SAVE_DIR} не существует. Создайте её перед запуском.")
+            print(f"[SERVER][ERROR]Файл не найден: {sourcepath}")
         except Exception as er:
-            print(f"[ERROR]Неожиданная ошибка при получении файла: {er}")
+            print(f"[SERVER][ERROR]Неожиданная ошибка при получении файла: {er}")
 
         clientsocket.close()
-        print ("[CLOSE]Соединение закрыто.")
+        print ("[SERVER][CLOSE]Соединение закрыто.")
 
 def main():
     """
