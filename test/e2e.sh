@@ -22,8 +22,8 @@ python3 src/client.py
 
 echo "[TEST]Проверка результата..."
 cmp "$SOURCE_PATH" "$DESTINATION_PATH" \
-  && echo "[TEST] OK: файлы совпадают." \
-  || echo "[TEST] FAIL: файлы различаются."
+  && echo "[TEST]OK: файлы совпадают." \
+  || echo "[TEST]FAIL: файлы различаются."
 
 echo "[TEST]Остановка сервера..."
 kill "$SERVER_PID" 2>/dev/null || true
