@@ -3,54 +3,50 @@ import socket
 HOST: str = "127.0.0.1"
 PORT: int = 1235
 SIZE: int = 1024
-SAVE_DIR: str = "test/data/saved"
+
+SOURCE_DIR: str = "test/data/source"
+SOURCE_NAME: str = "source.bin"
 STOP_MARK: bytes = b"__STOP__"
 
 def run_server() -> None:
     """
-    Простой UDP-сервер: принимает имя файла и содержимое,
-    сохраняет его в SAVE_DIR и отправляет подтверждение клиенту.
+    Простой UDP-сервер: ждёт имя файла от клиента, читает локальный файл
+    и отправляет его содержимое клиенту частями. В конце шлёт STOP_MARK.
     """
     serversocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     serversocket.bind((HOST, PORT))
-    print ("[BOOT]Сокет успешно создан, сервер слушает",(HOST, PORT))
+    print ("[SERVER][BOOT]Сокет успешно создан, сервер слушает",(HOST, PORT))
 
     while True:
             filenamepacket, clientaddr = serversocket.recvfrom(SIZE)
-            print("[CLIENT]Подключился клиент:", clientaddr)
+            print("[SERVER][CLIENT]Подключился клиент:", clientaddr)
             if not filenamepacket: 
-                print("[CLIENT]Пустое имя файла --> Пропущено.")
+                print("[SERVER][CLIENT]Пустое имя файла --> соединение закрыто.")
                 continue
 
-            filename: str = filenamepacket.decode().strip()
-            print("[RECV]Получены данные о файле.")
-            print(f"[CLIENT]Имя файла: {filename}.\n[RECV] Приём содержимого файла...")
-            
-            filepath = SAVE_DIR + "/" + filename
+            requestedname: str = filenamepacket.decode().strip()
+            print(f"[SERVER][REQUEST]Запрошен файл: {requestedname}.\n [SERVER][SENDING]Попытка отправки содержимого файла...")
 
+            if requestedname != SOURCE_NAME:
+                print("[SERVER][ERROR]Запрошен неизвестный файл. Соединение закрыто.")
+                continue
+            
+            sourcepath = SOURCE_DIR + "/" + SOURCE_NAME
             try:
-                fileout = open(filepath, "wb")
-                print("[OPEN]Файл открыт для перезаписи в бинарном режиме.")
-            
+                file = open(sourcepath, "rb")
+                print("[SERVER][SENDING]Передача данных...")
                 while True:
-                    chunk, from_addr = serversocket.recvfrom(SIZE)
-                    if from_addr != clientaddr:
-                        print(f"[SKIP] Получен пакет от чужого клиента {from_addr}, жду данные от {clientaddr}.")
-                        continue
-                    if chunk == STOP_MARK:   
+                    chunk: bytes = file.read(SIZE)
+                    if not chunk:
                         break
-                    fileout.write(chunk)
-            
-                fileout.close()
-                print("[FINISHED] Файл успешно сохранён.")
-
-                serversocket.sendto(b"THANKS FOR FILE BRO!!!", clientaddr)
-                print("[ACK] Подтверждение отправлено клиенту.")
+                    serversocket.sendto(chunk, clientaddr)
+                serversocket.sendto(STOP_MARK, clientaddr)
+                print("[SERVER][FINISHED] Передача файла завершена.")
 
             except FileNotFoundError:
-                print(f"[ERROR] Папка {SAVE_DIR} не существует. Создайте её перед запуском.")
+                print(f"[SERVER][ERROR] Файл не найден: {sourcepath}.")
             except Exception as er:
-                print(f"[ERROR]Неожиданная ошибка при получении файла: {er}")
+                print(f"[SERVER][ERROR]Неожиданная ошибка при получении файла: {er}")
 
 def main():
     """

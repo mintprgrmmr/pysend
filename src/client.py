@@ -3,48 +3,51 @@ import socket
 HOST: str = "127.0.0.1"
 PORT: int = 1235
 SIZE: int = 1024
-SOURCE_DIR: str = "test/data/source"
-SOURCE_NAME: str = "source.bin"
-SEND_NAME: str = "sendfile.txt"
+
+SAVE_DIR: str = "test/data/saved"
+REQUEST_NAME: str = "source.bin"
+DESTINATION_NAME: str = "sendfile.txt"
 STOP_MARK: bytes = b"__STOP__"
 
 def run_client() -> None:
     """
-    Простой UDP-клиент: подключается к серверу, отправляет имя файла
-    и его содержимое в байтах, затем ждёт подтверждение и закрывает соединение.
+    Простой UDP-клиент: отправляет имя файла серверу, 
+    принимает содержимое файла до STOP_MARK и сохраняет его в SAVE_DIR/DESTINATION_NAME.
     """
     clientsocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
     try:
         clientsocket.connect((HOST, PORT))
-        print(f"[CONNECTING]Клиент установил соединение с {HOST}:{PORT}.")
+        print(f"[CLIENT][CONNECTING]Клиент установил соединение с {HOST}:{PORT}.")
 
-        print(f"[REQUESTING] Имя файла для отправки: {SEND_NAME}")
-        clientsocket.send(SEND_NAME.encode())
+        print(f"[CLIENT][REQUESTING] Запрос файла: {REQUEST_NAME}")
+        clientsocket.send(REQUEST_NAME.encode())
+        
+        destinationpath = SAVE_DIR + "/" + DESTINATION_NAME
 
-        file = open(SOURCE_DIR + "/" + SOURCE_NAME, "rb")
-        print("[OPEN]Файл открыт для чтения в бинарном режиме.\n[SENDING] Отправка содержимого файла...")
-        while True:
-            chunk: bytes = file.read(SIZE)
-            if not chunk:
-                break
-            clientsocket.send(chunk)
-        file.close()
-
-        clientsocket.send(STOP_MARK)
-        print("[SENDING] Отправка завершена.")
-
-        message: str = clientsocket.recv(SIZE).decode()
-        print(f"[SERVER] Ответ:{message}")
+        try:
+            file = open(destinationpath, "wb")
+            print("[CLIENT][OPEN]Файл открыт для записи.")
+            print("[CLIENT][RECV]Прием данных...")
+            
+            while True:
+                data, _ = clientsocket.recvfrom(SIZE)
+                if data == STOP_MARK:   
+                    break
+                file.write(data)
+            file.close()
+            print(f"[CLIENT][SENDING] Прием завершен. Файл сохранен как {destinationpath}.")
+        except FileNotFoundError:
+            print(f"[CLIENT][FileNotFoundError] Папка для сохранения не найдена: {destinationpath}")
+        except Exception as er:
+            print(f"[CLIENT][ERROR]Ошибка записи: {er}")
 
         clientsocket.close()
 
-    except FileNotFoundError:
-            print(f"[FileNotFoundError] Не найден файл {SOURCE_NAME}. Проверь путь/имя.")
     except OSError as er:
-            print(f"[OSError] Ошибка №{er.errno}: {er.strerror}")
+        print(f"[OSError] Ошибка №{er.errno}: {er.strerror}")
     except Exception as er:
-        print(f"[ERROR]Неожиданная ошибка при подключении к серверу: {er}")
+        print(f"[CLIENT][ERROR]Неожиданная ошибка: {er}")
 
 def main() -> None:
     """
