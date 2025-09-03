@@ -21,11 +21,11 @@ def run_server() -> None:
             filenamepacket, clientaddr = serversocket.recvfrom(SIZE)
             print("[SERVER][CLIENT]Подключился клиент:", clientaddr)
             if not filenamepacket: 
-                print("[SERVER][CLIENT]Пустое имя файла --> соединение закрыто.")
+                print("[SERVER][CLIENT]Пустое имя файла --> пропуск.")
                 continue
 
             requestedname: str = filenamepacket.decode().strip()
-            print(f"[SERVER][REQUEST]Запрошен файл: {requestedname}.\n [SERVER][SENDING]Попытка отправки содержимого файла...")
+            print(f"[SERVER][REQUEST]Запрошен файл: {requestedname}.\n[SERVER][SENDING]Попытка отправки содержимого файла...")
 
             if requestedname != SOURCE_NAME:
                 print("[SERVER][ERROR]Запрошен неизвестный файл. Соединение закрыто.")
