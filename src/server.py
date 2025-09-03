@@ -42,7 +42,7 @@ def run_server() -> None:
             continue
 
         requestedname: str = filenamebytes.decode().strip()
-        print(f"[SERVER][CLIENT]Запрошен файл: {requestedname}. Попытка отправки содержимого файла...")
+        print(f"[SERVER][REQUEST]Запрошен файл: {requestedname}. Попытка отправки содержимого файла...")
         if requestedname != SOURCE_NAME:
             print("[SERVER][ERROR]Запрошен неизвестный файл. Соединение будет закрыто.")
             clientsocket.close()
@@ -52,6 +52,7 @@ def run_server() -> None:
         sourcepath = SOURCE_DIR + "/" + SOURCE_NAME
         try:
             file = open(sourcepath, "rb")
+            print("[SERVER][SENDING]Передача данных...")
             while True:
                 chunk: bytes = file.read(SIZE)
                 if not chunk:
