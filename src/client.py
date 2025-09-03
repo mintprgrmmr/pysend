@@ -20,7 +20,7 @@ def run_client() -> None:
         clientsocket.connect((HOST, PORT))
         print(f"[CLIENT][CONNECTING]Установлено соединение с {HOST}:{PORT}.")
 
-        print(f"[CLIENT][REQUESTING] Запрос файла: {REQUEST_NAME}")
+        print(f"[CLIENT][REQUEST] Запрос файла: {REQUEST_NAME}")
         clientsocket.send((REQUEST_NAME + "\n").encode())
 
         destinationpath = SAVE_DIR + "/" + DESTINATION_NAME
@@ -39,20 +39,20 @@ def run_client() -> None:
 
     except ConnectionRefusedError as er:
         if er.errno == errno.ECONNREFUSED:
-            print("[ConnectionRefusedError]В подключении отказано: сервер не слушает порт. Клиент завершил работу.")
+            print("[CLIENT][ConnectionRefusedError]В подключении отказано: сервер не слушает порт. Клиент завершил работу.")
             exit(1)
         else:
-            print("[ConnectionRefusedError]Ошибка подключения:", er)
+            print("[CLIENT][ConnectionRefusedError]Ошибка подключения:", er)
     except FileNotFoundError:
-        print(f"[FileNotFoundError] Не найден файл {destinationpath}. Проверь путь/имя.")
+        print(f"[CLIENT][FileNotFoundError] Не найден файл {destinationpath}. Проверь путь/имя.")
     except OSError as er:
         if er.errno == errno.EISCONN:
-            print(f"[OSError]Сокет уже подключен: {er}. Клиент завершил работу.")
+            print(f"[CLIENT][OSError]Сокет уже подключен: {er}. Клиент завершил работу.")
             exit(1)
         else:
-            print(f"[OSError] Ошибка №{er.errno}: {er.strerror}")
+            print(f"[CLIENT][OSError] Ошибка №{er.errno}: {er.strerror}")
     except Exception as er:
-        print(f"[ERROR]Неожиданная ошибка при подключении к серверу: {er}")
+        print(f"[CLIENT][ERROR]Неожиданная ошибка при подключении к серверу: {er}")
 
 def main() -> None:
     """
