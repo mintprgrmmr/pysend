@@ -20,7 +20,7 @@ def run_client() -> None:
         clientsocket.connect((HOST, PORT))
         print(f"[CLIENT][CONNECTING]Клиент установил соединение с {HOST}:{PORT}.")
 
-        print(f"[CLIENT][REQUESTING] Запрос файла: {REQUEST_NAME}")
+        print(f"[CLIENT][REQUEST] Запрос файла: {REQUEST_NAME}")
         clientsocket.send(REQUEST_NAME.encode())
         
         destinationpath = SAVE_DIR + "/" + DESTINATION_NAME
